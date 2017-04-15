@@ -4,6 +4,7 @@
 #include "component.h"
 #include "grapheAPI.h"
 #include "engine.h"
+#include "util.h"
 
 #define WIN_WIDTH 800
 #define WIN_HEIGHT 640
@@ -32,7 +33,7 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	RegisterClassEx(&WndCls);
 
 	HWND  hWnd = CreateWindowEx(WS_EX_OVERLAPPEDWINDOW,
-		TEXT("MAIN"), TEXT("ZX"),
+		TEXT("MAIN"), TEXT("PPBall"),
 		WS_OVERLAPPEDWINDOW | WS_VISIBLE,
 		CW_USEDEFAULT, CW_USEDEFAULT, WIN_WIDTH, WIN_HEIGHT,
 		NULL, NULL, hInstance, NULL);
@@ -43,15 +44,18 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	//Court mycourt(tempP, 200, 100);
 	//Ball myball;
 	//Bat mybat;
-	//GrapheAPI *myAPI = GrapheAPI::getInstance();
-	//myAPI->init(hWnd);
+	GrapheAPI *myAPI = GrapheAPI::getInstance();
+	myAPI->init(hWnd);
 	//myAPI->drawRect(50, 50, 550, 350);
 	//myAPI->drawLine(300, 50, 300, 350);
 	Engine myEngine;
-	myEngine.init(WIN_WIDTH, WIN_HEIGHT);
+	myEngine.init(WIN_WIDTH, WIN_HEIGHT, hWnd);
+	myEngine.initMap(MAP_WIDTH, MAP_HEIGHT);
+	myEngine.run();
 
-	while (GetMessage(&Msg, NULL, 0, 0))
+	while (PeekMessage(&Msg, NULL, 0, 0, PM_REMOVE))
 	{
+		if (Msg.message == WM_QUIT) break;
 		TranslateMessage(&Msg);
 		DispatchMessage(&Msg);
 	}

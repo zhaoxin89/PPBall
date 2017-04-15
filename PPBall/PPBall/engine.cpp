@@ -5,36 +5,47 @@
 Engine::Engine()
 {
 	isQuit = false;
+	batOffsetY = 1;
+	m_input = 2;
 	m_pGrapheAPI = GrapheAPI::getInstance();
 }
 
-void Engine::init(int w, int h)
+void Engine::init(int w, int h, HWND &hwnd)
 {
 	m_winWidth = w;
 	m_winHeight = h;
+	m_hwnd = hwnd;
 }
 
 void Engine::initMap(int w, int h)
 {
-	m_pGrapheAPI->drawRect(MAP_OFFSET_X, MAP_OFFSET_Y, MAP_OFFSET_X + w, MAP_OFFSET_Y + h);
+	m_pGrapheAPI->drawRect(MAP_OFFSET_X, MAP_OFFSET_Y, w, h);
 	m_pGrapheAPI->drawLine(MAP_OFFSET_X + w/2, MAP_OFFSET_Y, MAP_OFFSET_X + w / 2, MAP_OFFSET_Y + h);
+	m_bat.init();
+	m_ball.init();
+	//m_pGrapheAPI->drawRect(50, 50, 550, 350);
+	//m_pGrapheAPI->drawLine(300, 50, 300, 350);
 }
 
 void Engine::run()
 {
-	parseInput();
 	while (!isQuit)
 	{
+		parseInput();
 		//clearScreen();
 
+		//m_ball.move();
+		m_bat.move(m_input, batOffsetY);
 		m_ball.move();
-		m_bat.move(batOffsetY);
+		//m_pGrapheAPI->drawLine(MAP_OFFSET_X + w / 2, MAP_OFFSET_Y, MAP_OFFSET_X + w / 2, MAP_OFFSET_Y + h);
+		m_input = 2;
 		//drawBall();
 		//drawBat();
-		Sleep(10);
+		Sleep(20);
 		//if (isBallDrop()) isQuit = true;
 
 	}
+	return;
 }
 
 void Engine::drawBall(int x, int y)
@@ -58,7 +69,7 @@ void Engine::clearScreen()
 
 }
 
-int Engine::parseInput()
+void Engine::parseInput()
 {
 	//m_ball.move();
 	//m_bat.move();
@@ -67,5 +78,6 @@ int Engine::parseInput()
 	else if (KEYDOWN(VK_ESCAPE))
 	{
 		isQuit = true;
+		SendMessage(m_hwnd, WM_CLOSE, 0, 0);
 	}
 }

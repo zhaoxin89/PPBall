@@ -7,14 +7,14 @@ class Engine
 {
 public:
 	Engine();
-	void init(int winWidth, int winHeight);
+	void init(int winWidth, int winHeight, HWND &hwnd);
 	void initMap(int w, int h);
 	void run();
 	void drawBall(int x, int y);
 	void drawBat(int x, int y);
 	bool isBallDrop();
 	void clearScreen();
-	int parseInput();
+	void parseInput();
 private:
 	int m_winWidth, m_winHeight;
 	int batOffsetY;
@@ -23,4 +23,5 @@ private:
 	GrapheAPI * m_pGrapheAPI;
 	bool isQuit;
 	int m_input;
+	HWND m_hwnd;
 };

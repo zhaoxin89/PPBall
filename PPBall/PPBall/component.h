@@ -8,8 +8,9 @@ class Ball
 public:
 	Ball();
 	~Ball() {};
-	void draw(int x, int y);
+	void init();
 	void move();
+	void draw(int x, int y);
 
 private:
 	Point position;
@@ -29,8 +30,9 @@ class Bat
 public:
 	Bat();
 	~Bat() {};
+	void init();
 	void draw(int x, int y);
-	void move(int key);
+	void move(int key, int offset);
 private:
 	int locationX;
 	int locationY;

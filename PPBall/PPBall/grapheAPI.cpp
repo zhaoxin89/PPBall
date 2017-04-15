@@ -2,6 +2,27 @@
 
 GrapheAPI *GrapheAPI::instance = NULL;
 
+GrapheAPI::~GrapheAPI()
+{
+	if (instance)
+	{
+		delete(instance);
+		instance = NULL;
+	}
+}
+
+GrapheAPI * GrapheAPI::getInstance()
+{
+	if (!instance)
+	{
+		//instance = this;
+		instance = new GrapheAPI;
+		return instance;
+	}
+	else 
+		return instance;
+}
+
 void GrapheAPI::init(HWND Hwnd)
 {
 	hwnd = Hwnd;
@@ -15,7 +36,7 @@ void GrapheAPI::drawRect(int x, int y, int length, int width)
 	newBrush = CreateSolidBrush(RGB(255, 255, 255));
 	SelectObject(hdc, newBrush);
 	RECT r;
-	SetRect(&r, x, y, length, width);
+	SetRect(&r, x, y, x + length, y + width);
 	FrameRect(hdc, &r, newBrush);
 	DeleteObject(newBrush);
 
@@ -26,11 +47,26 @@ void GrapheAPI::drawFilledRect(int x, int y, int length, int width)
 {
 	hdc = GetDC(hwnd);
 
-	for (int i = x; i <= length; i++)
+	for (int i = x; i < x + length; i++)
 	{
-		for (int j = y; j <= width; j++)
+		for (int j = y; j < y + width; j++)
 		{
 			SetPixel(hdc, i, j, RGB(255, 255, 255));
+		}
+	}
+
+	ReleaseDC(hwnd, hdc);
+}
+
+void GrapheAPI::clearFilledRect(int x, int y, int length, int width)
+{
+	hdc = GetDC(hwnd);
+
+	for (int i = x; i < x + length; i++)
+	{
+		for (int j = y; j < y + width; j++)
+		{
+			SetPixel(hdc, i, j, RGB(0, 0, 0));
 		}
 	}
 

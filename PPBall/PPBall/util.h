@@ -4,6 +4,9 @@
 #define MAP_OFFSET_X 50
 #define MAP_OFFSET_Y 50
 
+#define MAP_WIDTH 500
+#define MAP_HEIGHT 300
+
 #define KEYBOARD_UP 0
 #define KEYBOARD_DOWN 1
 #define KEYBOARD_LEFT 2
@@ -17,13 +20,13 @@ class Point
 {
 public:
 	Point() :x(0), y(0) {}
-	Point(float X, float Y) { x = Y; y = Y; }
-	void set(float a, float b) { x = a; y = b; }
-	float getX() { return x; }
-	float getY() { return y; }
+	Point(int X, int Y) { x = Y; y = Y; }
+	void set(int a, int b) { x = a; y = b; }
+	int getX() { return x; }
+	int getY() { return y; }
 
-	float x;
-	float y;
+	int x;
+	int y;
 };
 
 
